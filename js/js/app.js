@@ -4,92 +4,61 @@
 // ================================
 
 let currentQuestion = 0;
-
 let score = 0;
-
 let timer = 0;
-
 let timerInterval = null;
 
 let selectedLevel = "light";
 
 let questions = [];
-
 let userAnswers = [];
 
 const lightQuestions = [];
-
 const highQuestions = [];
-
-// -----------------------------
 
 const lightCard = document.getElementById("light");
 const highCard = document.getElementById("high");
 const startBtn = document.getElementById("startBtn");
 
-// -----------------------------
-
 lightCard.addEventListener("click", () => {
-
     selectedLevel = "light";
-
     lightCard.classList.add("selected");
-
     highCard.classList.remove("selected");
-
 });
 
 highCard.addEventListener("click", () => {
-
     selectedLevel = "high";
-
     highCard.classList.add("selected");
-
     lightCard.classList.remove("selected");
-
 });
-
-// -----------------------------
 
 startBtn.addEventListener("click", startTest);
 
-// -----------------------------
-
 function startTest(){
 
-    const fullname =
-        document
+    const fullname = document
         .getElementById("fullname")
         .value
         .trim();
 
     if(fullname===""){
-
         alert("Введіть ПІБ");
-
         return;
-
     }
 
-    if(selectedLevel==="light"){
-
-        questions=[...lightQuestions];
-
-    }else{
-
-        questions=[...highQuestions];
-
-    }
+    questions =
+        selectedLevel==="light"
+        ? [...lightQuestions]
+        : [...highQuestions];
 
     shuffleArray(questions);
 
-    currentQuestion=0;
+    currentQuestion = 0;
+    score = 0;
+    timer = 0;
+    userAnswers = [];
 
-    score=0;
-
-    timer=0;
-
-    userAnswers=[];
+    prepareQuestions();
 
     startTimer();
 
@@ -97,13 +66,11 @@ function startTest(){
 
 }
 
-// -----------------------------
-
 function startTimer(){
 
     clearInterval(timerInterval);
 
-    timerInterval=setInterval(()=>{
+    timerInterval = setInterval(() => {
 
         timer++;
 
@@ -113,25 +80,17 @@ function startTimer(){
 
 }
 
-// -----------------------------
-
 function updateTimer(){
 
-    const m=Math.floor(timer/60);
+    const m = Math.floor(timer/60);
+    const s = timer%60;
 
-    const s=timer%60;
-
-    const value=
-
+    const value =
         String(m).padStart(2,"0")
-
         +":"
+        +String(s).padStart(2,"0");
 
-        +
-
-        String(s).padStart(2,"0");
-
-    const timerBox=document.getElementById("timer");
+    const timerBox = document.getElementById("timer");
 
     if(timerBox){
 
@@ -141,30 +100,21 @@ function updateTimer(){
 
 }
 
-// -----------------------------
-
 function shuffleArray(array){
 
     for(let i=array.length-1;i>0;i--){
 
         const j=Math.floor(Math.random()*(i+1));
 
-        [array[i],array[j]]
-
-        =
-
-        [array[j],array[i]];
+        [array[i],array[j]]=[array[j],array[i]];
 
     }
 
 }
-// ==============================
-// Відображення питання
-// ==============================
 
 function showQuestion(){
 
-    if(currentQuestion >= questions.length){
+    if(currentQuestion>=questions.length){
 
         finishTest();
 
@@ -172,9 +122,9 @@ function showQuestion(){
 
     }
 
-    const q = questions[currentQuestion];
+    const q=questions[currentQuestion];
 
-    document.body.innerHTML = `
+    document.body.innerHTML=`
 
 <div class="container fade">
 
@@ -197,49 +147,21 @@ style="width:${((currentQuestion)/questions.length)*100}%">
 
 <div class="question-card">
 
-<h2>
-
-Питання ${currentQuestion+1}
-
-</h2>
+<h2>Питання ${currentQuestion+1}</h2>
 
 <p style="margin-top:20px;font-size:20px;line-height:1.6">
-
 ${q.question}
-
 </p>
 
-${
-q.image
-?
+${q.image ? `<img class="question-image" src="${q.image}">` : ""}
 
-`<img class="question-image" src="${q.image}">`
-
-:
-
-""
-
-}
-
-<div
-class="answers"
-id="answers">
-
-</div>
+<div class="answers" id="answers"></div>
 
 <div class="navigation">
 
-<button onclick="prevQuestion()">
+<button onclick="prevQuestion()">← Назад</button>
 
-← Назад
-
-</button>
-
-<button onclick="nextQuestion()">
-
-Далі →
-
-</button>
+<button onclick="nextQuestion()">Далі →</button>
 
 </div>
 
@@ -253,9 +175,9 @@ id="answers">
 
     renderAnswers();
 
-}
+    restoreAnswers();
 
-// ==============================
+}
 
 function renderAnswers(){
 
@@ -271,7 +193,7 @@ function renderAnswers(){
 
         div.className="answer";
 
-        div.innerHTML=answer.text;
+        div.innerHTML=answer.text ?? answer;
 
         div.onclick=()=>selectAnswer(index,div);
 
@@ -280,28 +202,26 @@ function renderAnswers(){
     });
 
 }
-// ==============================
-// Вибір відповіді
-// ==============================
 
-function selectAnswer(index, element){
+function selectAnswer(index,element){
 
-    const q = questions[currentQuestion];
+    const q=questions[currentQuestion];
 
-    // Якщо дозволено кілька відповідей
     if(q.multiple){
 
         element.classList.toggle("selected");
 
         if(!userAnswers[currentQuestion]){
-            userAnswers[currentQuestion] = [];
+
+            userAnswers[currentQuestion]=[];
+
         }
 
-        const arr = userAnswers[currentQuestion];
+        const arr=userAnswers[currentQuestion];
 
-        const pos = arr.indexOf(index);
+        const pos=arr.indexOf(index);
 
-        if(pos === -1){
+        if(pos===-1){
 
             arr.push(index);
 
@@ -311,13 +231,9 @@ function selectAnswer(index, element){
 
         }
 
-    }
+    }else{
 
-    // Якщо тільки одна правильна відповідь
-    else{
-
-        document
-            .querySelectorAll(".answer")
+        document.querySelectorAll(".answer")
             .forEach(a=>a.classList.remove("selected"));
 
         element.classList.add("selected");
@@ -327,8 +243,6 @@ function selectAnswer(index, element){
     }
 
 }
-
-// ==============================
 
 function nextQuestion(){
 
@@ -346,8 +260,6 @@ function nextQuestion(){
 
 }
 
-// ==============================
-
 function prevQuestion(){
 
     if(currentQuestion===0){
@@ -361,94 +273,72 @@ function prevQuestion(){
     showQuestion();
 
 }
-// ==============================
-// Завершення тесту
-// ==============================
 
-function finishTest(){
+function restoreAnswers(){
 
-    clearInterval(timerInterval);
+    const saved=userAnswers[currentQuestion];
 
-    score = 0;
+    if(saved===undefined) return;
 
-    questions.forEach((q,index)=>{
+    const blocks=document.querySelectorAll(".answer");
 
-        const answer = userAnswers[index];
+    if(Array.isArray(saved)){
 
-        // Якщо кілька правильних відповідей
-        if(q.multiple){
+        saved.forEach(index=>{
 
-            const selected = [...answer].sort();
+            if(blocks[index]){
 
-            const correct = [...q.correct].sort();
+                blocks[index].classList.add("selected");
 
-            if(JSON.stringify(selected)===JSON.stringify(correct)){
-                score++;
             }
+
+        });
+
+    }else{
+
+        if(blocks[saved]){
+
+            blocks[saved].classList.add("selected");
 
         }
 
-        // Якщо одна правильна відповідь
-        else{
+    }
 
-            if(answer===q.correct){
-                score++;
-            }
+}
 
-        }
+function shuffleAnswers(question){
 
-    });
+    const correct=question.correct;
 
-    const percent = Math.round(score/questions.length*100);
+    const answers=question.answers.map((a,i)=>({
 
-    document.body.innerHTML = `
+        text:a,
 
-<div class="container">
+        original:i
 
-<div class="result-card fade">
+    }));
 
-<h1>Тест завершено</h1>
+    shuffleArray(answers);
 
-<div class="score">
+    if(question.multiple){
 
-${percent}%
+        question.correct=correct.map(c=>
+            answers.findIndex(a=>a.original===c)
+        );
 
-</div>
+    }else{
 
-<div class="result-text">
+        question.correct=
+            answers.findIndex(a=>a.original===correct[0]);
 
-Правильних відповідей
+    }
 
-</div>
+    question.answers=answers;
 
-<div class="result-details">
+}
 
-${score} із ${questions.length}
+function prepareQuestions(){
 
-</div>
-
-<div class="result-details">
-
-Час проходження
-
-<br><br>
-
-${document.getElementById("timer") ?
-document.getElementById("timer").innerHTML :
-"--:--"}
-
-</div>
-
-<button onclick="location.reload()">
-
-Завершити
-
-</button>
-
-</div>
-
-</div>
-
-`;
+    questions.forEach(q=>shuffleAnswers(q));
 
 }

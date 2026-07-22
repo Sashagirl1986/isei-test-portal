@@ -280,3 +280,84 @@ function renderAnswers(){
     });
 
 }
+// ==============================
+// Вибір відповіді
+// ==============================
+
+function selectAnswer(index, element){
+
+    const q = questions[currentQuestion];
+
+    // Якщо дозволено кілька відповідей
+    if(q.multiple){
+
+        element.classList.toggle("selected");
+
+        if(!userAnswers[currentQuestion]){
+            userAnswers[currentQuestion] = [];
+        }
+
+        const arr = userAnswers[currentQuestion];
+
+        const pos = arr.indexOf(index);
+
+        if(pos === -1){
+
+            arr.push(index);
+
+        }else{
+
+            arr.splice(pos,1);
+
+        }
+
+    }
+
+    // Якщо тільки одна правильна відповідь
+    else{
+
+        document
+            .querySelectorAll(".answer")
+            .forEach(a=>a.classList.remove("selected"));
+
+        element.classList.add("selected");
+
+        userAnswers[currentQuestion]=index;
+
+    }
+
+}
+
+// ==============================
+
+function nextQuestion(){
+
+    if(userAnswers[currentQuestion]===undefined){
+
+        alert("Оберіть відповідь.");
+
+        return;
+
+    }
+
+    currentQuestion++;
+
+    showQuestion();
+
+}
+
+// ==============================
+
+function prevQuestion(){
+
+    if(currentQuestion===0){
+
+        return;
+
+    }
+
+    currentQuestion--;
+
+    showQuestion();
+
+}

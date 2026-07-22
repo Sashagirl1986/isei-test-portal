@@ -361,3 +361,94 @@ function prevQuestion(){
     showQuestion();
 
 }
+// ==============================
+// Завершення тесту
+// ==============================
+
+function finishTest(){
+
+    clearInterval(timerInterval);
+
+    score = 0;
+
+    questions.forEach((q,index)=>{
+
+        const answer = userAnswers[index];
+
+        // Якщо кілька правильних відповідей
+        if(q.multiple){
+
+            const selected = [...answer].sort();
+
+            const correct = [...q.correct].sort();
+
+            if(JSON.stringify(selected)===JSON.stringify(correct)){
+                score++;
+            }
+
+        }
+
+        // Якщо одна правильна відповідь
+        else{
+
+            if(answer===q.correct){
+                score++;
+            }
+
+        }
+
+    });
+
+    const percent = Math.round(score/questions.length*100);
+
+    document.body.innerHTML = `
+
+<div class="container">
+
+<div class="result-card fade">
+
+<h1>Тест завершено</h1>
+
+<div class="score">
+
+${percent}%
+
+</div>
+
+<div class="result-text">
+
+Правильних відповідей
+
+</div>
+
+<div class="result-details">
+
+${score} із ${questions.length}
+
+</div>
+
+<div class="result-details">
+
+Час проходження
+
+<br><br>
+
+${document.getElementById("timer") ?
+document.getElementById("timer").innerHTML :
+"--:--"}
+
+</div>
+
+<button onclick="location.reload()">
+
+Завершити
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}

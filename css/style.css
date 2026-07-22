@@ -266,3 +266,144 @@ button:hover{
     width:100%;
 
 }
+.result-card{
+
+    background:#fff;
+    border-radius:24px;
+    box-shadow:var(--shadow);
+    padding:45px;
+    max-width:700px;
+    margin:40px auto;
+    text-align:center;
+
+}
+
+.score{
+
+    font-size:64px;
+    font-weight:700;
+    color:var(--purple);
+    margin:20px 0;
+
+}
+
+.result-text{
+
+    font-size:22px;
+    margin-bottom:15px;
+
+}
+
+.result-details{
+
+    color:var(--gray);
+    font-size:18px;
+    margin-bottom:35px;
+
+}
+
+.hidden{
+
+    display:none;
+
+}
+
+.fade{
+
+    animation:fade .35s ease;
+
+}
+
+@keyframes fade{
+
+    from{
+
+        opacity:0;
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    .tests{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    .container{
+
+        padding:15px;
+
+    }
+
+    .login-card,
+    .question-card,
+    .result-card{
+
+        padding:25px;
+
+    }
+
+    h1{
+
+        font-size:28px;
+
+    }
+
+    .navigation{
+
+        flex-direction:column;
+
+    }
+
+    .header{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    .logo img{
+
+        width:140px;
+
+    }
+
+    input{
+
+        font-size:16px;
+
+    }
+
+    button{
+
+        font-size:17px;
+
+    }
+
+    .level{
+
+        font-size:20px;
+
+    }
+
+}

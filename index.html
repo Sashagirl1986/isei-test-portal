@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISEI Test Portal</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+
+    <div class="login-card">
+
+        <div class="logo">
+
+            <img src="https://www.isei.ua/image/catalog/logo.svg" alt="ISEI">
+
+        </div>
+
+        <h1>Система атестації персоналу</h1>
+
+        <p class="subtitle">
+            Для початку введіть своє ПІБ та оберіть рівень тестування
+        </p>
+
+        <input
+            id="fullname"
+            type="text"
+            placeholder="Прізвище Ім'я По батькові"
+        >
+
+        <div class="tests">
+
+            <div class="test-card selected" id="light">
+
+                <div class="level">
+                    Light Level
+                </div>
+
+                <div class="desc">
+                    Базова атестація
+                </div>
+
+            </div>
+
+            <div class="test-card" id="high">
+
+                <div class="level">
+                    High Level
+                </div>
+
+                <div class="desc">
+                    Поглиблена атестація
+                </div>
+
+            </div>
+
+        </div>
+
+        <button id="startBtn">
+            Розпочати тест
+        </button>
+
+        <div class="version">
+            ISEI Test Portal v1.0
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>
